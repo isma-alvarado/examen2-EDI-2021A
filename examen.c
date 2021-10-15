@@ -118,23 +118,3 @@ void BuscaValor(float arr[N][M], float *pos, int *mayor)
 	}
 }
 
-int Bubuja(int arr[N][M])
-{
-    int auxiliar,contador, pos;
-
-
-        for(contador=0;contador<N;contador++)
-        {
-            if(arr[1][contador]<arr[1][contador+1])
-            {
-                auxiliar=arr[1][contador];
-                arr[1][contador]=arr[1][contador+1];
-                arr[1][contador+1]=auxiliar;
-                pos=contador;
-            }
-        }
-
-
-   return pos;
-}
-
