@@ -18,13 +18,17 @@ int main()
 	int claves[N];
 	char nombre[NOMBRES];
 	float estaturaSueldo[N][M];
-	int mayor=0,posicion;
+	float mayor=0;
+	int posicion;
 	trabajadores=Burbuja(estaturaSueldo);
 	CapturaDatos(claves,nombre,estaturaSueldo);
     ImprimeDatos(claves,nombre,estaturaSueldo,trabajadores);
-    printf("El empleado con el mayor esta en [%d] y es %.2", posicion, mayor);
+
     BuscaValor(estaturaSueldo,&mayor,&posicion);
 
+
+
+    printf("El empleado con el mayor esta en [%d] es %.2", posicion, mayor);
 
 	return 0;
 }
@@ -62,18 +66,15 @@ void ImprimeDatos(int clave[N], char nombre[NOMBRES], float arr[N][M], int emple
 {
 	int i;
 	int j=0;
-	printf("Primero el de mayor sueldo, luego lista completa\n\n");
-	printf("Clave  Nombre  Estatura  Sueldo\n");
-	printf("%d  %s  %.2f  %.2f \n\n", clave[empleado], nombre[empleado], arr[empleado][j], arr[empleado][j+1]);
+
+	printf("Clave          Nombre           Estatura             Sueldo\n");
 
 	for(i=0; i<N; i++)
 	{
-		printf("%d  ", clave[i]);
-
-		printf("%s  ", nombre[i]);
-
-		printf("%f  ", arr[i][j]);
-		printf("%f  ", arr[i][j+1]);
+		printf("%d", clave[i]);
+		printf("%s", nombre[i]);
+        printf("%f", arr[i][j]);
+		printf("%f", arr[i][j+1]);
 		printf("\n");
 	}
 }
