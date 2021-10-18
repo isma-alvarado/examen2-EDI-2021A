@@ -1,120 +1,160 @@
+//CORRECION DEL EXAMEN
 #include <stdio.h>
+#include <string.h>
+#define N 4
+#define COL_ESTATURA 0
+#define COL_SUELDO 1
 
-#define N 3
-#define M 3
-#define NOMBRES 100
 
-void CapturaDatos(int clave[N], char nombre[NOMBRES], float arr[N][M]);
-void ImprimeDatos(int clave[N], char nombre[NOMBRES], float arr[N][M], int empleado);
+void captura(int clave[N],char nombre[N][20],float datos[N][2]);
 
-int Burbuja(float arr[N][M]);
-void BuscaValor(float arr[N][M], float *pos, int *mayor);
+int buscaEmpleadoAlto(float info[N][2]);
+void ordenaEmpleadoPorSueldo(int clave[N],char nombre[N][20],float datos[N][2]);
 
+void ImprimeDatos(int clave[N],char nombre[N][20],float datos[N][2]);
 
 int main()
 {
 
-	int trabajadores;
-	int claves[N];
-	char nombre[NOMBRES];
-	float estaturaSueldo[N][M];
-	float mayor=0;
-	int posicion;
-	trabajadores=Burbuja(estaturaSueldo);
-	CapturaDatos(claves,nombre,estaturaSueldo);
-    ImprimeDatos(claves,nombre,estaturaSueldo,trabajadores);
+int clave[N];
+char nombre[N][20];
+float datos[N][2];
 
-    BuscaValor(estaturaSueldo,&mayor,&posicion);
+int posicionMasAlto;
+
+captura(clave,nombre,datos);
+
+ordenaEmpleadoPorSueldo(clave,nombre,datos);
+
+ImprimeDatos(clave,nombre,datos);
+
+posicionMasAlto = (buscaEmpleadoAlto(datos));
+
+printf("EL nombre del empleado mas alto es: %s\n",nombre[posicionMasAlto]);
+printf("Y su estatura es: %f.2\n",datos[posicionMasAlto][COL_ESTATURA]);
 
 
+return 0;
 
-    printf("El empleado con el mayor esta en [%d] es %.2", posicion, mayor);
 
-	return 0;
 }
 
-void CapturaDatos(int clave[N], char nombre[NOMBRES], float arr[N][M])
+void ImprimeDatos(int clave[N],char nombre[N][20],float datos[N][2])
 {
-	int i;
-	int j=0;
+    int empleado;
 
-	for(i=0; i<N; i++)
-	{
-		printf("Dime la clave del empleado %d: ", i+1);
-		scanf("%d", &clave[i]);
+    printf("CLAVE             NOMBRE             ESTATURA           SALARIO \n");
+
+    for(empleado=0;empleado<N;empleado++)
+    {
+        printf("%d\t\t",clave[empleado]);
+        printf("%s\t\t",nombre[empleado]);
+        printf("%f \t\t",datos[empleado][COL_ESTATURA]);
+        printf("%f \n",datos[empleado][COL_SUELDO]);
     }
-        printf("\n");
-    for(i=0; i<N; i++)
-	{
-
-		printf("Dime el nombre del empleado %d: ",i+1);
-		scanf("%s", &nombre[i]);
-    }
-        printf("\n");
-    for(i=0; i<N; i++)
-	{
-
-		printf("Estatura del empleado %d: ", i+1);
-		scanf("%f", &arr[i][j]);
-
-		scanf("%f", &arr[i][j+1]);
-	}
-	    printf("\n");
-	}
-
-void ImprimeDatos(int clave[N], char nombre[NOMBRES], float arr[N][M], int empleado)
-{
-	int i;
-	int j=0;
-
-	printf("Clave          Nombre           Estatura             Sueldo\n");
-
-	for(i=0; i<N; i++)
-	{
-		printf("%d", clave[i]);
-		printf("%s", nombre[i]);
-        printf("%f", arr[i][j]);
-		printf("%f", arr[i][j+1]);
-		printf("\n");
-	}
 }
 
 
-int Burbuja(float arr[N][M])
+
+
+
+void ordenaEmpleadoPorSueldo(int clave[N],char nombre[N][20],float datos[N][2])
 {
-    int auxilar,contador,pos;
+    int i,j;
+    int aux;
+    int auxClave;
+    char auxNombre[20];
 
-
-        for(contador=0;contador<N;contador++)
+    for(i=0;i<N-1;i++)//Acomoda todos los elementos
+    {
+        for(j=0;j<N-1;j++)//intercambio para
         {
-            if(arr[1][contador]<arr[1][contador+1])
+            if(datos[j][COL_SUELDO]<datos[j+1][COL_SUELDO])
             {
-                auxilar=arr[1][contador];
-                arr[1][contador]=contador[1][contador+1];
-                arr[1][contador+1]=auxilar;
-                pos=contador;
+                //intercambio del sueldo
+                aux=datos[j][COL_SUELDO];
+                datos[j][COL_SUELDO]=datos[j+1][COL_SUELDO];
+                datos[j+1][COL_SUELDO]=aux;
+
+
+                //intercambio estatura
+
+                aux=datos[j][COL_ESTATURA];
+                datos[j][COL_ESTATURA]=datos[j+1][COL_ESTATURA];
+                datos[j+1][COL_ESTATURA]=aux;
+
+
+                //intercambio la clave
+
+                auxClave=clave[j];
+                clave[j]=clave[j+1];
+                clave[j+1]=auxClave;
+
+
+
+                //intercambio de nombre
+
+                strcpy(auxNombre,nombre[j]);
+                strcpy(nombre[j],nombre[j+1]);
+                strcpy(nombre[j+1],auxNombre);
+
+
             }
+
+        }
+
+        }
+    }
+
+
+
+
+
+
+
+
+int buscaEmpleadoAlto(float info[N][2])
+{
+    int empleado;
+    float mayor = info[0][COL_ESTATURA];
+    int posicion = 0;
+
+
+    for(empleado=0;empleado<N;empleado++)
+    {
+
+        if(info[empleado][COL_ESTATURA]>mayor)
+        {
+            mayor = info[empleado][COL_ESTATURA];
+            posicion = empleado;
         }
 
 
-   return pos;
+    }
 }
 
 
-
-
-
-void BuscaValor(float arr[N][M], float *pos, int *mayor)
+void captura(int clave[N],char nombre[N][20],float datos[N][2])
 {
-	int i;
+    int empleado;
+    for(empleado=0;empleado<N;empleado++)
+    {
+        printf("CLAVE[%d]: ",empleado+1);
+        scanf("%d",&clave[empleado]);
 
-	for(i=0; i<N; i++)
-	{
-		if(*mayor<arr[0][i])
-		{
-			*mayor=arr[0][i];
-			*pos=i;
-		}
-	}
+        printf("NOMBRE[%d]: ",empleado+1);
+        scanf("%s",&nombre[empleado]);
+
+        printf("ESATURA[%d]: ",empleado+1);
+        scanf("%f",&datos[empleado][COL_ESTATURA]);
+
+        printf("SUELDO[%d]: ",empleado+1);
+        scanf("%f",&datos[empleado][COL_SUELDO]);
+        printf("\n");
+    }
 }
+
+
+
+
 
